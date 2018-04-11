@@ -24,3 +24,52 @@ $ ./run.sh
 - php配置 php/conf/php.ini
 - php-fpm配置 php/conf/php-fpm.conf
 - nginx相关配置 nginx/www.conf
+
+### 附 PHP Modules
+
+``` php
+Core
+ctype
+curl
+date
+dom
+exif
+fileinfo
+filter
+ftp
+gd
+hash
+iconv
+json
+libxml
+mbstring
+memcached
+mysqli
+mysqlnd
+openssl
+pcntl
+pcre
+PDO
+pdo_mysql
+pdo_sqlite
+Phar
+posix
+readline
+redis
+Reflection
+session
+SimpleXML
+sockets
+sodium
+SPL
+sqlite3
+standard
+tokenizer
+xml
+xmlreader
+xmlwriter
+Zend OPcache
+zip
+zlib
+
+```
