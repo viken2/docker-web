@@ -1,5 +1,5 @@
 FROM php:7.2-fpm
-MAINTAINER  viken <viken2011@gmail.com>
+LABEL maintainer="viken2011@gmail.com"
 
 COPY ./sources.list /etc/apt/sources.list
 COPY ./ext/*.tgz /tmp/ext/
@@ -15,12 +15,13 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
         libmemcached-dev \
         libxml2-dev \
         libzip-dev \
+        libpq-dev \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip \
-    && docker-php-ext-install mysqli pdo_mysql pgsql pdo_mysql exif pcntl sockets \
+    && docker-php-ext-install mysqli pdo_mysql pgsql pdo_pgsql exif pcntl sockets \
     && pecl install /tmp/ext/memcached-3.0.4.tgz \
     && pecl install /tmp/ext/redis-3.1.6.tgz \
     && pecl install /tmp/ext/xdebug-2.6.0.tgz \

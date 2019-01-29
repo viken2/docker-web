@@ -2,12 +2,14 @@ version: "3"
 services:
   php1:
     image: www-php:v1
+    container_name: www-php1
     restart: always
     volumes:
         - ./www:/var/www/html
 
   php2:
     image: www-php:v1
+    container_name: www-php2
     restart: always
     volumes:
         - ./www:/var/www/html
@@ -17,6 +19,7 @@ services:
       - php1
       - php2
     image: nginx:1.13.7
+    container_name: www-nginx
     ports:
       - "80:80"
     restart: always
