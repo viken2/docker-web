@@ -20,7 +20,7 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip \
-    && docker-php-ext-install mysqli pdo_mysql exif pcntl sockets \
+    && docker-php-ext-install mysqli pdo_mysql pgsql pdo_mysql exif pcntl sockets \
     && pecl install /tmp/ext/memcached-3.0.4.tgz \
     && pecl install /tmp/ext/redis-3.1.6.tgz \
     && pecl install /tmp/ext/xdebug-2.6.0.tgz \
