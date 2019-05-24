@@ -1,6 +1,6 @@
 # docker-web 使用
 
-> www目录为对应代码目录
+www目录为对应代码目录，php版本：php-7.3，nginx版本：1.16
 
 ## build php镜像
 
