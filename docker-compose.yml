@@ -1,29 +1,40 @@
 version: "3"
+
+networks:
+  www-net:
+    driver: bridge
+
 services:
   php1:
-    image: www-php:v1
+    image: www-php73-alpine
     container_name: www-php1
     restart: always
     volumes:
         - ./www:/var/www/html
+    networks:
+      - www-net
 
   php2:
-    image: www-php:v1
+    image: www-php73-alpine
     container_name: www-php2
     restart: always
     volumes:
         - ./www:/var/www/html
+    networks:
+      - www-net
 
   nginx:
     depends_on:
       - php1
       - php2
-    image: nginx:1.13.7
+    image: nginx:1.16
     container_name: www-nginx
     ports:
-      - "80:80"
+      - "8081:80"
     restart: always
     volumes:
         - ./www:/data/www
         - ./nginx/nginx.conf:/etc/nginx/nginx.conf
         - ./nginx/www.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - www-net

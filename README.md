@@ -4,8 +4,10 @@
 
 ## build php镜像
 
+php-7.3-alpine 不支持 pgsql pdo_pgsql 扩展，但是要比 php-7.3 小接近200m
+
 ``` php
-$ cd php
+$ cd php-7.*
 $ ./build.sh
 ```
 
@@ -51,7 +53,9 @@ pcntl
 pcre
 PDO
 pdo_mysql
+pdo_pgsql
 pdo_sqlite
+pgsql
 Phar
 posix
 readline
