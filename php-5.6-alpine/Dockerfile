@@ -4,10 +4,9 @@ LABEL maintainer="viken2011@gmail.com"
 COPY ./ext/*.tgz /tmp/ext/
 RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/repositories \
     && echo http://mirrors.aliyun.com/alpine/latest-stable/community >> /etc/apk/repositories \
-    && apk --update upgrade && apk add curl bash tzdata \
-    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" >  /etc/timezone \
-    && date \
+    && apk --update upgrade && apk add curl tzdata \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
     && apk del tzdata \
     && apk add --no-cache --virtual .build-deps \
         autoconf automake make gcc g++ \
