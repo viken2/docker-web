@@ -14,8 +14,6 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
         libjpeg-turbo-dev \
         libpng-dev \
         libwebp-dev \
-        libmcrypt-dev \
-        libpng-dev \
         libmemcached-dev \
         libxml2-dev \
         libzip-dev \
@@ -24,9 +22,9 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip \
     && docker-php-ext-install mysqli pdo_mysql exif pcntl sockets \
-    && pecl install /tmp/ext/memcached-3.1.3.tgz \
-    && pecl install /tmp/ext/redis-4.3.0.tgz \
-    && pecl install /tmp/ext/xdebug-2.7.2.tgz \
+    && pecl install /tmp/ext/memcached-3.1.4.tgz \
+    && pecl install /tmp/ext/redis-5.1.1.tgz \
+    && pecl install /tmp/ext/xdebug-2.8.0.tgz \
     && rm -rf /tmp/ext && rm -rf /tmp/pear
 COPY ./conf/php.ini /usr/local/etc/php/conf.d/docker-php.ini
 COPY ./conf/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
