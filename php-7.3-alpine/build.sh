@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo docker build -t www-php73-alpine -f ./Dockerfile .
+sudo docker build -t php73-alpine -f ./Dockerfile .

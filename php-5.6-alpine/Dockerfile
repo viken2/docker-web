@@ -19,14 +19,16 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
         libmemcached-dev \
         libxml2-dev \
         libzip-dev \
+        postgresql-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip \
-    && docker-php-ext-install mysql mysqli pdo_mysql exif pcntl sockets \
+    && docker-php-ext-install mysql mysqli pdo_mysql pgsql pdo_pgsql exif pcntl sockets \
     && pecl install /tmp/ext/memcached-2.2.0.tgz \
     && pecl install /tmp/ext/redis-2.2.8.tgz \
     && pecl install /tmp/ext/xdebug-2.5.5.tgz \
+    && cd /usr/local/etc/php && cp php.ini-production php.ini \
     && cd / \
     && runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
