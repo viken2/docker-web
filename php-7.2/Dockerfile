@@ -25,6 +25,15 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && pecl install /tmp/ext/memcached-3.0.4.tgz \
     && pecl install /tmp/ext/redis-3.1.6.tgz \
     && pecl install /tmp/ext/xdebug-2.6.0.tgz \
+    && cd / \
+    && runDeps="$( \
+        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+            | tr ',' '\n' \
+            | sort -u \
+            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    )" \
+    && apk add --no-cache $runDeps \
+    && apk del --no-network .build-deps \
     && rm -rf /tmp/ext && rm -rf /tmp/pear
 COPY ./conf/php.ini /usr/local/etc/php/conf.d/docker-php.ini
 COPY ./conf/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
