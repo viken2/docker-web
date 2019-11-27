@@ -6,8 +6,8 @@ networks:
 
 services:
   php1:
-    image: www-php73-alpine
-    container_name: www-php1
+    image: php73-alpine
+    container_name: php1
     restart: always
     volumes:
         - ./www:/var/www/html
@@ -15,8 +15,8 @@ services:
       - www-net
 
   php2:
-    image: www-php73-alpine
-    container_name: www-php2
+    image: php73-alpine
+    container_name: php2
     restart: always
     volumes:
         - ./www:/var/www/html
@@ -27,7 +27,7 @@ services:
     depends_on:
       - php1
       - php2
-    image: nginx:1.16
+    image: nginx:1.16-alpine
     container_name: www-nginx
     ports:
       - "8081:80"
