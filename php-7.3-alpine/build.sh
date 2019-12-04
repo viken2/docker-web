@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo docker build -t php73-alpine -f ./Dockerfile .
+docker build . --file Dockerfile --tag php73-alpine:v1.0
