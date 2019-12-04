@@ -1,6 +1,7 @@
 FROM php:5.6-fpm-alpine
 LABEL maintainer="viken2011@gmail.com"
 
+WORKDIR /data/www
 COPY ./ext/*.tgz /tmp/ext/
 RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/repositories \
     && echo http://mirrors.aliyun.com/alpine/latest-stable/community >> /etc/apk/repositories \
