@@ -11,6 +11,7 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     && apk del tzdata \
     && apk add --no-cache --virtual .build-deps \
         autoconf automake make gcc g++ \
+        pcre-dev \
         freetype-dev \
         libjpeg-turbo-dev \
         libpng-dev \
