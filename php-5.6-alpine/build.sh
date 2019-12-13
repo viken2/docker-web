@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t php56-alpine:v1.0 -f ./Dockerfile .
+docker build -t php56-alpine:1.0 -f ./Dockerfile .
