@@ -12,7 +12,6 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
     && npm install -g node-gyp node-pre-gyp --registry=https://registry.npm.taobao.org/ \
-    && npm install -g grpc@1.21.1 --unsafe-perm --grpc_node_binary_host_mirror=https://npm.taobao.org/mirrors --registry=https://registry.npm.taobao.org/ \
-    && npm install -g etcd3 --unsafe-perm --registry=https://registry.npm.taobao.org/ \
+    && npm install -g grpc@1.21.1 etcd3 --unsafe-perm --registry=https://registry.npm.taobao.org/ \
     && rm -rf /usr/local/lib/node_modules/grpc/build \
     && apk del .build-deps
