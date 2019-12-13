@@ -13,5 +13,6 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     && echo "Asia/Shanghai" > /etc/timezone \
     && npm install -g node-gyp node-pre-gyp --registry=https://registry.npm.taobao.org/ \
     && npm install -g grpc@1.21.1 etcd3 --unsafe-perm --registry=https://registry.npm.taobao.org/ \
+    && npm uninstall -g node-gyp node-pre-gyp \
     && rm -rf /usr/local/lib/node_modules/grpc/build \
     && apk del .build-deps
