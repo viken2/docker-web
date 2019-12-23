@@ -10,14 +10,15 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     && echo "Asia/Shanghai" > /etc/timezone \
     && apk del tzdata \
     && apk add --no-cache --virtual .build-deps \
-        autoconf automake make gcc g++ \
+        autoconf automake make gcc g++ re2c \
         freetype-dev \
         libjpeg-turbo-dev \
         libpng-dev \
         libwebp-dev \
-        libmemcached-dev \
         libxml2-dev \
         libzip-dev \
+        cyrus-sasl-dev \
+        libmemcached-dev \
         postgresql-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \

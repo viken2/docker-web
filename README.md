@@ -54,7 +54,9 @@ pcntl
 pcre
 PDO
 pdo_mysql
+pdo_pgsql
 pdo_sqlite
+pgsql
 Phar
 posix
 readline
@@ -68,7 +70,6 @@ SPL
 sqlite3
 standard
 tokenizer
-xdebug
 xml
 xmlreader
 xmlwriter
@@ -77,6 +78,5 @@ zip
 zlib
 
 [Zend Modules]
-Xdebug
 Zend OPcache
 ```
