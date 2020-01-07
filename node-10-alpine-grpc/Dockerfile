@@ -5,7 +5,7 @@ WORKDIR /app
 RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/repositories \
     && echo http://mirrors.aliyun.com/alpine/latest-stable/community >> /etc/apk/repositories \
     && apk --update upgrade \
-    && apk --no-cache --virtual .build-deps add curl tzdata \
+    && apk --no-cache --virtual .build-deps add curl \
     python \
     make \
     g++ \

@@ -5,12 +5,9 @@ WORKDIR /data/www
 COPY ./ext/*.tgz /tmp/ext/
 RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/repositories \
     && echo http://mirrors.aliyun.com/alpine/latest-stable/community >> /etc/apk/repositories \
-    && apk --update upgrade && apk add curl tzdata \
-    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" > /etc/timezone \
-    && apk del tzdata \
+    && apk --update upgrade \
     && apk add --no-cache --virtual .build-deps \
-        autoconf automake make gcc g++ re2c \
+        curl autoconf automake make gcc g++ re2c \
         pcre-dev \
         freetype-dev \
         libjpeg-turbo-dev \

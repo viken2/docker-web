@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t node10-alpine-grpc-etcd3:1.0 -f ./Dockerfile .
+docker build -t node10-alpine-grpc:1.0 -f ./Dockerfile .
