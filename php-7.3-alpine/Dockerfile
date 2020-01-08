@@ -36,5 +36,9 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     && apk add --no-cache $runDeps \
     && apk del --no-network .build-deps \
     && rm -rf /tmp/ext && rm -rf /tmp/pear
+
+RUN apk add --no-cache gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+
 COPY ./conf/php.ini /usr/local/etc/php/conf.d/docker-php.ini
 COPY ./conf/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
