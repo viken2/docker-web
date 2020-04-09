@@ -24,14 +24,8 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     && docker-php-ext-install mysqli pdo_mysql pgsql pdo_pgsql exif pcntl sockets \
     && pecl install /tmp/ext/redis-5.1.1.tgz && docker-php-ext-enable redis \
     && pecl install /tmp/ext/grpc-1.28.0.tgz && docker-php-ext-enable grpc\
-    && cd / \
-    && run-deps="$( \
-        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
-            | tr ',' '\n' \
-            | sort -u \
-            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-    )" \
-    && apk add --no-cache $run-deps \
+    && pecl install /tmp/ext/memcached-3.1.4.tgz \
+    && pecl install /tmp/ext/xdebug-2.8.0.tgz \
     && apk del --no-network .build-deps \
     && rm -rf /tmp/ext && rm -rf /tmp/pear
 
