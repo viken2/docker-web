@@ -16,6 +16,7 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
         cyrus-sasl-dev \
         libmemcached-dev \
         postgresql-dev \
+        linux-headers \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-configure zip --with-libzip \
