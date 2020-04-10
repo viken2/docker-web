@@ -2,7 +2,6 @@ FROM php:7.3-fpm-alpine
 LABEL maintainer="viken2011@gmail.com"
 
 WORKDIR /data/www
-COPY ./ext/*.tgz /tmp/ext/
 RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/repositories \
     && echo http://mirrors.aliyun.com/alpine/latest-stable/community >> /etc/apk/repositories \
     && apk --update upgrade \
@@ -22,9 +21,9 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip \
     && docker-php-ext-install mysqli pdo_mysql pgsql pdo_pgsql exif pcntl sockets \
-    && pecl install /tmp/ext/memcached-3.1.4.tgz \
-    && pecl install /tmp/ext/redis-5.1.1.tgz \
-    && pecl install /tmp/ext/xdebug-2.8.0.tgz \
+    && pecl install memcached \
+    && pecl install redis \
+    && pecl install xdebug \
     && cd /usr/local/etc/php && cp php.ini-production php.ini \
     && cd / \
     && runDeps="$( \
@@ -35,7 +34,7 @@ RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/reposito
     )" \
     && apk add --no-cache $runDeps \
     && apk del --no-network .build-deps \
-    && rm -rf /tmp/ext && rm -rf /tmp/pear
+    && rm -rf /tmp/*
 
 RUN apk add --no-cache gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php

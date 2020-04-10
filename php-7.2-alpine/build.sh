@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build . --file Dockerfile --tag php72-alpine:1.0
+docker build . --file Dockerfile --tag php72-alpine:1.0.0
