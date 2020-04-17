@@ -3,10 +3,10 @@ LABEL maintainer="viken2011@gmail.com"
 
 WORKDIR /data/www
 COPY ./ext/*.tgz /tmp/ext/
-RUN echo http://mirrors.aliyun.com/alpine/latest-stable/main > /etc/apk/repositories \
-    && echo http://mirrors.aliyun.com/alpine/latest-stable/community >> /etc/apk/repositories \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
     && apk --update upgrade \
     && apk add --no-cache --virtual .build-deps \
+        tzdata ca-certificates \
         curl autoconf automake make gcc g++ re2c \
         pcre-dev \
         freetype-dev \
