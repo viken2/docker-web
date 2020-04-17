@@ -5,7 +5,7 @@ WORKDIR /data/www
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
     && apk --update upgrade \
     && apk add --no-cache --virtual .build-deps \
-        tzdata ca-certificates gnu-libiconv \
+        tzdata ca-certificates \
         curl autoconf automake make gcc g++ re2c \
         freetype-dev \
         libjpeg-turbo-dev \
@@ -36,6 +36,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && apk del --no-network .build-deps \
     && rm -rf /tmp/*
 
+RUN apk add --no-cache --repository http://mirrors.aliyun.com/alpine/edge/community gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 COPY ./conf/php.ini /usr/local/etc/php/conf.d/docker-php.ini
