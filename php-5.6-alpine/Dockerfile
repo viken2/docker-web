@@ -40,6 +40,8 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && apk del --no-network .build-deps \
     && rm -rf /tmp/ext && rm -rf /tmp/pear
 
+# https://github.com/docker-library/php/issues/240#issuecomment-305038173
+# php -d error_reporting=22527 -d display_errors=1 -r "var_dump(iconv('UTF-8//IGNORE', 'UTF-8', '哈哈哈')) . PHP_EOL;"
 RUN apk add --no-cache --repository http://mirrors.aliyun.com/alpine/edge/community gnu-libiconv
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
