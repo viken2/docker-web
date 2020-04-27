@@ -1,0 +1,70 @@
+FROM php:5.6-fpm-alpine
+LABEL maintainer="viken2011@gmail.com"
+
+WORKDIR /data/www
+COPY ./ext/*.tgz /tmp/ext/
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    && apk --update upgrade \
+    && apk add --no-cache --virtual .build-deps \
+        tzdata ca-certificates \
+        curl autoconf automake make gcc g++ re2c \
+        pcre-dev \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+        libmcrypt-dev \
+        libpng-dev \
+        libxml2-dev \
+        libzip-dev \
+        cyrus-sasl-dev \
+        libmemcached-dev \
+        postgresql-dev \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install mysql mysqli pdo_mysql pgsql pdo_pgsql exif pcntl sockets \
+    && pecl install /tmp/ext/memcached-2.2.0.tgz \
+    && pecl install /tmp/ext/redis-2.2.8.tgz \
+    && pecl install /tmp/ext/xdebug-2.5.5.tgz \
+    && cd /usr/local/etc/php && cp php.ini-production php.ini \
+    && cd / \
+    && runDeps="$( \
+        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+            | tr ',' '\n' \
+            | sort -u \
+            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    )" \
+    && apk add --no-cache $runDeps \
+    && apk del --no-network .build-deps \
+    && rm -rf /tmp/ext && rm -rf /tmp/pear
+
+# https://hub.docker.com/r/wangqiru/phantomjs/dockerfile
+# https://github.com/dustinblphantomjsackman/phantomized/releases/download/2.1.1/dockerized-phantomjs.tar.gz
+# https://github.com/Overbryd/docker-phantomjs-alpine/releases/download/2.11/phantomjs-alpine-x86_64.tar.bz2
+COPY soft/dockerized-phantomjs.tar.gz /tmp/
+COPY soft/phantomjs-2.1.1-linux-x86_64.tar.bz2 /usr/local/
+
+# http://leegorous.net/blog/2018/11/15/how-to-render-chinese-in-alpine-phantomjs/
+# https://icoolworld.github.io/alpine/alpine-%E4%B8%AD%E6%96%87%E6%88%AA%E5%9B%BE%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98.html
+RUN apk add fontconfig mkfontscale wqy-zenhei --update-cache --repository http://nl.alpinelinux.org/alpine/edge/testing --allow-untrusted
+
+RUN cd /tmp && mkdir dockerized-phantomjs && tar zxf dockerized-phantomjs.tar.gz -C ./dockerized-phantomjs &&  \
+    cd dockerized-phantomjs && \
+    cp -R lib lib64 / &&\
+    cp -R usr/lib/x86_64-linux-gnu /usr/lib && \
+    cp -R usr/share /usr/ && \
+    cp -R etc/fonts /etc && \
+    cd /usr/local && tar jxf phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
+    ln -s /lib64/ld-linux-x86-64.so.2 /lib/ && \
+    ln -s /usr/local/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin && \
+    rm -rf /usr/local/phantomjs-2.1.1-linux-x86_64.tar.bz2 && rm -rf /tmp/*
+
+# https://github.com/docker-library/php/issues/240#issuecomment-305038173
+# php -d error_reporting=22527 -d display_errors=1 -r "var_dump(iconv('UTF-8//IGNORE', 'UTF-8', '哈哈哈')) . PHP_EOL;"
+RUN apk add --no-cache --repository http://mirrors.aliyun.com/alpine/edge/community gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+
+COPY ./conf/php.ini /usr/local/etc/php/conf.d/docker-php.ini
+COPY ./conf/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
